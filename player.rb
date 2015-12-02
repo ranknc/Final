@@ -16,6 +16,8 @@ class Player
 		# @over = Gosu::Sample.new(".wav")
 	end
 
+	
+
 	def warp(x, y)
 		@x, @y = x, y
 	end
