@@ -5,7 +5,6 @@ class Player
 
 	attr_reader :score
 
-	TURN_INCREMENT = 3.0
 	ACCELERATION = 0.3
 	COLLISION_DISTANCE = 35.0
 
@@ -13,26 +12,32 @@ class Player
 		@x = @y = @vel_x = @vel_y = @angle = 0.0
 		@score = 0
 		@image = Gosu::Image.new("Images/Pacman.png")
-		@waka = Gosu::Sample.new(".wav")
-		@over = Gosu::Sample.new(".wav")
+		# @waka = Gosu::Sample.new(".wav")
+		# @over = Gosu::Sample.new(".wav")
 	end
 
 	def warp(x, y)
 		@x, @y = x, y
 	end
 
-	def turn_left
-		@angle -= TURN_INCREMENT
+	def move_left
+		@angle = 180
+		@vel_x -= 0.5
 	end
 
-	def turn_right
-		@angle += TURN_INCREMENT
+	def move_right
+		@angle = 0
+		@vel_x += 0.5
 	end
 
-	def accelerate
-		@vel_x += Gosu::offset_x(@angle, ACCELERATION)
-		@vel_y += Gosu::offset_y(@angle, ACCELERATION)
-		
+	def move_up
+		@angle = 270
+		@vel_y -= 0.5
+	end
+
+	def move_down
+		@angle = 90
+		@vel_y += 0.5
 	end
 
 	def move
@@ -57,15 +62,17 @@ class Player
 		orbs.reject! do |orb|
 			if colliding?(orb) then
 			@score += 1
-			@waka.play
+			# @waka.play
 			true
 			else
 			false
 			end
 		end
 	end
+end
 		
 	private
 		
 		def colliding?(orb)
 		Gosu::distance(@x, @y, orb.x, orb.y) < COLLISION_DISTANCE
+		end

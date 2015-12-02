@@ -7,18 +7,23 @@ class GameWindow < Gosu::Window
 	def initialize
 		super 640, 480
 		self.caption = "Gosu Tutorial Game"
-
-		@background_image = Gosu::Image.new(".png", :tileable => true)
+		@stages = []
+		@stages[0] = Gosu::Image.new("Images/Stage-1.png", :tileable => true)
+		@stages[1] = Gosu::Image.new("Images/Stage-2.png", :tileable => true)
+		@stages[2] = Gosu::Image.new("Images/Stage-3.png", :tileable => true)
+		@background_image = @stages[rand(0..@stages.length - 1)]
 		@player = Player.new
 		@player.warp(width/2.0, height/2.0)
 		@orbs = []
 		@font = Gosu::Font.new(20)
+		
 	end
 
 	def update
-		@player.turn_left if Gosu::button_down? Gosu::KbLeft
-		@player.turn_right if Gosu::button_down? Gosu::KbRight
-		@player.accelerate if Gosu::button_down? Gosu::KbUp
+		@player.move_left if Gosu::button_down? Gosu::KbLeft
+		@player.move_right if Gosu::button_down? Gosu::KbRight
+		@player.move_up if Gosu::button_down? Gosu::KbUp
+		@player.move_down if Gosu::button_down? Gosu::KbDown
 		
 		@player.move
 		
