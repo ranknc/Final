@@ -1,6 +1,7 @@
 require "gosu"
 require_relative 'player'
 require_relative 'zorder'
+require_relative 'orbs'
 
 class GameWindow < Gosu::Window
 
@@ -14,6 +15,7 @@ class GameWindow < Gosu::Window
 		@background_image = @stages[rand(0..@stages.length - 1)]
 		@player = Player.new
 		@player.warp(width/2.0, height/2.0)
+		@orb_anim = Gosu::Image::load_tiles("Images/orb.png", 10, 10)
 		@orbs = []
 		@font = Gosu::Font.new(20)
 		
@@ -26,12 +28,20 @@ class GameWindow < Gosu::Window
 		@player.move_down if Gosu::button_down? Gosu::KbDown
 		
 		@player.move
-		
+		@player.collect_orbs(@orbs)
+
+		if rand(100) < 6 && @orbs.size < 25
+			@orbs.push(Orb.new(@orb_anim))
+		end
+		@orbs.each do |orb|
+			@orbs.delete(orb) if orb.collected? == 1
+		end
 	end
 
 	def draw
 		@player.draw
 		@background_image.draw(0, 0, ZOrder::BACKGROUND)
+		@orbs.each { |orb| orb.draw }
 		@font.draw("Score: #{@player.score}", 10, 10, ZOrder::UI, 1.0, 1.0, 0xff_ffff00)
 	end
 

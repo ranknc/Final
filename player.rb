@@ -1,12 +1,15 @@
 require "gosu"
 require_relative 'zorder'
 
+
+COLLISION_DISTANCE = 20.0
+
 class Player
 
 	attr_reader :score
 
 	ACCELERATION = 0.3
-	COLLISION_DISTANCE = 35.0
+	
 
 	def initialize
 		@x = @y = @vel_x = @vel_y = @angle = 0.0
@@ -64,6 +67,7 @@ class Player
 		orbs.reject! do |orb|
 			if colliding?(orb) then
 			@score += 1
+			@collected == 1
 			# @waka.play
 			true
 			else
