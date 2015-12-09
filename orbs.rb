@@ -8,8 +8,8 @@ class Orb
 		@animation = animation
 		@color = Gosu::Color.new(0xff_ffffff)
 
-		@x = 320
-		@y = 240
+		@x = rand * 640
+		@y = rand * 480
 		@collected = 0
 	end
 
@@ -21,9 +21,7 @@ class Orb
 			ZOrder::ORBS,
 			1, 1, @color, :add)
 	end
-	def update
 		def collected?
 			@collected
 		end
-	end
 end

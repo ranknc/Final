@@ -3,6 +3,7 @@ require_relative 'player'
 require_relative 'zorder'
 require_relative 'orbs'
 
+
 class GameWindow < Gosu::Window
 
 	def initialize
@@ -10,8 +11,7 @@ class GameWindow < Gosu::Window
 		self.caption = "Gosu Tutorial Game"
 		@stages = []
 		@stages[0] = Gosu::Image.new("Images/Stage-1.png", :tileable => true)
-		@stages[1] = Gosu::Image.new("Images/Stage-2.png", :tileable => true)
-		@stages[2] = Gosu::Image.new("Images/Stage-3.png", :tileable => true)
+		@stages[1] = Gosu::Image.new("Images/Stage-3.png", :tileable => true)
 		@background_image = @stages[rand(0..@stages.length - 1)]
 		@player = Player.new
 		@player.warp(width/2.0, height/2.0)
@@ -30,7 +30,7 @@ class GameWindow < Gosu::Window
 		@player.move
 		@player.collect_orbs(@orbs)
 
-		if rand(100) < 6 && @orbs.size < 25
+		if rand(100) < 6 && @orbs.size < 10
 			@orbs.push(Orb.new(@orb_anim))
 		end
 		@orbs.each do |orb|
@@ -48,7 +48,6 @@ class GameWindow < Gosu::Window
 	def button_down(id)
 		close if id == Gosu::KbEscape
 	end
-
 end
 
 window = GameWindow.new
